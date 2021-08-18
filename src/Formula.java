@@ -1,25 +1,27 @@
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Boolean Logic Formula Object.
  *
  * @author Robert Stevens
+ * @version 1.0
  */
 public class Formula {
 
-    private ArrayList<Clause> clauses;
+    private List<Clause> clauses;
 
-    private static class Clause {
-        private ArrayList<Literal> literals;
-    }
+    /**
+     * Creates a Formula object from a multiline string representation of a CNF formula.
+     *
+     * @param formula multiline string representation of a formula
+     */
+    public Formula(String formula) {
+        clauses = new ArrayList<>();
 
-    private static class Literal {
-        private final int x;
-        private final boolean truth;
-
-        public Literal(int x, boolean truth) {
-            this.x = x;
-            this.truth = truth;
+        // Each line of the formula is a clause
+        for (String line : formula.split("\n")) {
+            clauses.add(new Clause(line));
         }
     }
 }
