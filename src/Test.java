@@ -1,7 +1,14 @@
+/**
+ * Testing class for verifying the k-SAT-CNF backend.
+ *
+ * @author Robert Stevens
+ * @version 1.0
+ */
+
 public class Test {
     public static void main(String[] args) {
 
-        BooleanFormulaInstance formulaInstance = new BooleanFormulaInstance("TF");
+        BooleanFormulaEnvironment formulaInstance = new BooleanFormulaEnvironment("TF");
 
         BooleanLiteral l1 = new BooleanLiteral("1");    //T
         BooleanLiteral l2 = new BooleanLiteral("2");    //F

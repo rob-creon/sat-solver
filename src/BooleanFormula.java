@@ -4,7 +4,9 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
- * Boolean Logic Formula Object.
+ * Boolean Formula Object.
+ *
+ * <p> Represents a boolean formula in conjunctive normative form. </p>
  *
  * @author Robert Stevens
  * @version 1.0
@@ -14,7 +16,7 @@ public class BooleanFormula implements BooleanExpression {
     private final List<BooleanClause> clauses;
 
     /**
-     * Creates a Formula object from a multiline string representation of a CNF formula.
+     * Creates a Boolean Formula object from a multiline string representation of a CNF formula.
      *
      * @param formula multiline string representation of a formula
      */
@@ -25,7 +27,7 @@ public class BooleanFormula implements BooleanExpression {
     }
 
     @Override
-    public boolean eval(BooleanFormulaInstance instance) {
+    public boolean eval(BooleanFormulaEnvironment instance) {
         for (BooleanClause clause : clauses)
             if (!clause.eval(instance))
                 return false;
@@ -33,7 +35,7 @@ public class BooleanFormula implements BooleanExpression {
     }
 
     @Override
-    public boolean canEval(BooleanFormulaInstance instance) {
+    public boolean canEval(BooleanFormulaEnvironment instance) {
         for (BooleanClause clause : clauses)
             if (!clause.canEval(instance))
                 return false;
