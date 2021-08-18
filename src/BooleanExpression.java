@@ -1,4 +1,4 @@
 public interface BooleanExpression {
-    boolean eval(FormulaInstance instance);
-    boolean canEval(FormulaInstance instance);
+    boolean eval(BooleanFormulaInstance instance);
+    boolean canEval(BooleanFormulaInstance instance);
 }
