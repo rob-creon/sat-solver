@@ -5,7 +5,7 @@ public class BooleanLiteral implements BooleanExpression {
 
     public BooleanLiteral(String literal) {
         int value = Integer.parseInt(literal);
-        truth = value < 0;
+        truth = value > 0;
         x = Math.abs(value);
     }
 
@@ -19,7 +19,7 @@ public class BooleanLiteral implements BooleanExpression {
 
     @Override
     public boolean eval(BooleanFormulaInstance instance) {
-        return instance.getVariables()[x - 1].getBool() && truth;
+        return (instance.getVariables()[x - 1].getBool() && truth) || (!instance.getVariables()[x - 1].getBool() && !truth);
     }
 
     @Override

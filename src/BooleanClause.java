@@ -24,8 +24,8 @@ public class BooleanClause implements BooleanExpression {
     @Override
     public boolean canEval(BooleanFormulaInstance instance) {
         for (BooleanLiteral literal : literals)
-            if (!literal.canEval(instance))
-                return false;
+            if (literal.canEval(instance))
+                return true;
         return false;
     }
 
