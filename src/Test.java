@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Testing class for verifying the k-SAT-CNF backend.
  *
@@ -33,21 +36,37 @@ public class Test {
                 -1 -2
                 1 -2
                 """);
-        System.out.println(formula1);
+        //System.out.println(formula1);
         assert (formula1.eval(formulaInstance));
 
         BooleanFormula formula2 = new BooleanFormula("""
                 1 -2
                 1 2
                 """);
-        System.out.println(formula2);
+        //System.out.println(formula2);
         assert (formula2.eval(formulaInstance));
 
         BooleanFormula formula3 = new BooleanFormula("""
                 -1 -2
                 -1 2
                 """);
-        System.out.println(formula3);
+        //System.out.println(formula3);
         assert (!formula3.eval(formulaInstance));
+
+        BooleanFormulaEnvironment env = new BooleanFormulaEnvironment("TT--");
+
+        List<BooleanExpression> antecedents = new ArrayList<>();
+        antecedents.add(new BooleanLiteral("1"));
+        antecedents.add(new BooleanLiteral("2"));
+
+        List<BooleanExpression> consequents = new ArrayList<>();
+        consequents.add(new BooleanLiteral("3"));
+        consequents.add(new BooleanLiteral("4"));
+
+        BooleanImplication implication1 = new BooleanImplication(antecedents, consequents);
+
+        System.out.println(env);
+        implication1.execute(env);
+        System.out.println(env);
     }
 }

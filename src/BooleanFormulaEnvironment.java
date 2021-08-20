@@ -6,43 +6,7 @@
  */
 public class BooleanFormulaEnvironment {
 
-    /**
-     * Boolean Wrapper Enum
-     * <p> for supporting UNASSIGNED values in cases when the solver only knows the values of some variables. </p>
-     */
-    public enum BooleanValue {
-        TRUE(true, 'T'), FALSE(false, 'F'), UNASSIGNED(null, '-');
-
-        private final Boolean bool;
-        private final char ch;
-
-        BooleanValue(Boolean bool, char ch) {
-            this.bool = bool;
-            this.ch = ch;
-        }
-
-        public boolean getBool() {
-            return bool;
-        }
-
-        /**
-         * Returns the enum corresponding to a character literal.
-         *
-         * @param ch character literal of the boolean value
-         * @return enum corresponding to ch
-         * @throws IllegalArgumentException if the character literal does not correspond to any bool value
-         */
-        public static BooleanValue fromChar(char ch) {
-            for (BooleanValue val : values()) {
-                if (val.ch == ch) {
-                    return val;
-                }
-            }
-            throw new IllegalArgumentException("Value not found: " + ch);
-        }
-    }
-
-    private final BooleanValue[] variables;
+    private BooleanValue[] variables;
 
     /**
      * Creates a Boolean Formula Environment from a string of boolean values
@@ -66,9 +30,22 @@ public class BooleanFormulaEnvironment {
     }
 
     /**
-     * @return unmodifiable array of values for variables
+     * @return array of values for variables
      */
     public BooleanValue[] getVariables() {
         return variables;
     }
+
+    /**
+     * @return string representation of this environment
+     */
+    @Override
+    public String toString() {
+        char[] str = new char[variables.length];
+        for (int i = 0; i < variables.length; ++i) {
+            str[i] = variables[i].ch;
+        }
+        return String.valueOf(str);
+    }
+
 }

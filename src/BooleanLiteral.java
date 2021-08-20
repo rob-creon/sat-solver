@@ -34,12 +34,12 @@ public class BooleanLiteral implements BooleanExpression {
 
     @Override
     public boolean eval(BooleanFormulaEnvironment instance) {
-        return (instance.getVariables()[x - 1].getBool() && truth) || (!instance.getVariables()[x - 1].getBool() && !truth);
+        return (instance.getVariables()[x - 1].bool && truth) || (!instance.getVariables()[x - 1].bool && !truth);
     }
 
     @Override
     public boolean canEval(BooleanFormulaEnvironment instance) {
-        return instance.getVariables()[x - 1] != BooleanFormulaEnvironment.BooleanValue.UNASSIGNED;
+        return instance.getVariables()[x - 1] != BooleanValue.UNASSIGNED;
     }
 
     @Override
