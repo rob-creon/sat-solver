@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/2sat.iml" filepath="$PROJECT_DIR$/2sat.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ksat.iml" filepath="$PROJECT_DIR$/ksat.iml" />
     </modules>
   </component>
 </project>

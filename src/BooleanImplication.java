@@ -1,14 +1,13 @@
-import java.util.List;
-
 public class BooleanImplication {
-    private List<BooleanExpression> antecedents;
-    private List<BooleanExpression> consequents;
 
-    public BooleanImplication(BooleanExpression expression) {
+    private final BooleanExpression[] antecedents;
+    private final BooleanExpression[] consequents;
 
+    public BooleanImplication(BooleanExpression antecedent, BooleanExpression consequent) {
+        this(new BooleanExpression[]{antecedent}, new BooleanExpression[]{consequent});
     }
 
-    public BooleanImplication(List<BooleanExpression> antecedents, List<BooleanExpression> consequents) {
+    public BooleanImplication(BooleanExpression[] antecedents, BooleanExpression[] consequents) {
         this.antecedents = antecedents;
         this.consequents = consequents;
     }
@@ -19,7 +18,7 @@ public class BooleanImplication {
      * @param environment
      * @return false if any antecedent is false, true if all antecedents are true, and unassigned if
      */
-    private BooleanValue evalAntecedents(BooleanFormulaEnvironment environment) {
+    private BooleanValue evalAntecedents(BooleanEnvironment environment) {
         boolean canEval = true;
         for (BooleanExpression ant : antecedents)
             if (!ant.canEval(environment))
@@ -30,24 +29,26 @@ public class BooleanImplication {
     }
 
     /**
-     * @param environment
+     * @param environment formula environment
      * @return returns true unless a contradiction is reached
      */
-    public boolean execute(BooleanFormulaEnvironment environment) {
+    public boolean execute(BooleanEnvironment environment) {
 
         if (!evalAntecedents(environment).bool) {
             return true;
         }
         for (BooleanExpression con : consequents) {
             if (con instanceof BooleanLiteral lit) {
-                if (environment.getVariables()[lit.getX()] == BooleanValue.UNASSIGNED) {
-                    environment.getVariables()[lit.getX()] = BooleanValue.fromBool(lit.getTruth());
-                } else if (environment.getVariables()[lit.getX()].bool != lit.getTruth()) {
+                if (environment.getVariables()[lit.getX() - 1] == BooleanValue.UNASSIGNED) {
+                    environment.getVariables()[lit.getX() - 1] = BooleanValue.fromBool(lit.getTruth());
+                } else if (environment.getVariables()[lit.getX() - 1].bool != lit.getTruth()) {
                     return false;
                 }
-            }
-            if (!new BooleanImplication(con).execute(environment)) {
-                return false;
+            } else {
+                BooleanImplication[] subImplications = con.getImplications();
+                for (BooleanImplication i : subImplications) {
+                    if (!i.execute(environment)) return false;
+                }
             }
         }
         return true;

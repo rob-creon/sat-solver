@@ -23,11 +23,12 @@ public class BooleanClause implements BooleanExpression {
     public BooleanClause(String clause) {
         literals = new ArrayList<>();
         for (String literal : clause.split(" "))
-            literals.add(new BooleanLiteral(literal));
+            if (!literal.equals("0"))
+                literals.add(new BooleanLiteral(Integer.parseInt(literal)));
     }
 
     @Override
-    public boolean eval(BooleanFormulaEnvironment instance) {
+    public boolean eval(BooleanEnvironment instance) {
         for (BooleanLiteral literal : literals)
             if (literal.eval(instance))
                 return true;
@@ -35,11 +36,36 @@ public class BooleanClause implements BooleanExpression {
     }
 
     @Override
-    public boolean canEval(BooleanFormulaEnvironment instance) {
+    public boolean canEval(BooleanEnvironment instance) {
         for (BooleanLiteral literal : literals)
             if (literal.canEval(instance))
                 return true;
         return false;
+    }
+
+    @Override
+    public BooleanImplication[] getImplications() {
+        //TODO
+        return null;
+        /*
+        for (BooleanLiteral literal : literals) {
+            List<BooleanExpression> antecedents1 = new ArrayList<>();
+            List<BooleanExpression> consequents1 = new ArrayList<>(literals);
+            antecedents1.add(literal.getOpposite());
+            consequents1.remove(literal);
+
+            List<BooleanExpression> antecedents2 = new ArrayList<>(consequents1);
+            List<BooleanExpression> consequents2 = new ArrayList<>(antecedents1);
+        }
+         */
+    }
+
+    public int getHighestX() {
+        int max = 0;
+        for (BooleanLiteral l : literals)
+            if (l.getX() > max)
+                max = l.getX();
+        return max;
     }
 
     @Override

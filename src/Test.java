@@ -1,6 +1,3 @@
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Testing class for verifying the k-SAT-CNF backend.
  *
@@ -11,12 +8,12 @@ import java.util.List;
 public class Test {
     public static void main(String[] args) {
 
-        BooleanFormulaEnvironment formulaInstance = new BooleanFormulaEnvironment("TF");
+        BooleanEnvironment formulaInstance = new BooleanEnvironment("TF");
 
-        BooleanLiteral l1 = new BooleanLiteral("1");    //T
-        BooleanLiteral l2 = new BooleanLiteral("2");    //F
-        BooleanLiteral ln1 = new BooleanLiteral("-1");  //F
-        BooleanLiteral ln2 = new BooleanLiteral("-2");  //T
+        BooleanLiteral l1 = new BooleanLiteral(1);    //T
+        BooleanLiteral l2 = new BooleanLiteral(2);    //F
+        BooleanLiteral ln1 = new BooleanLiteral(-1);  //F
+        BooleanLiteral ln2 = new BooleanLiteral(-2);  //T
         assert (l1.eval(formulaInstance));
         assert (!l2.eval(formulaInstance));
         assert (!ln1.eval(formulaInstance));
@@ -53,17 +50,17 @@ public class Test {
         //System.out.println(formula3);
         assert (!formula3.eval(formulaInstance));
 
-        BooleanFormulaEnvironment env = new BooleanFormulaEnvironment("TT--");
+        BooleanEnvironment env = new BooleanEnvironment("TF--");
 
-        List<BooleanExpression> antecedents = new ArrayList<>();
-        antecedents.add(new BooleanLiteral("1"));
-        antecedents.add(new BooleanLiteral("2"));
-
-        List<BooleanExpression> consequents = new ArrayList<>();
-        consequents.add(new BooleanLiteral("3"));
-        consequents.add(new BooleanLiteral("4"));
-
-        BooleanImplication implication1 = new BooleanImplication(antecedents, consequents);
+        BooleanImplication implication1 = new BooleanImplication(
+                new BooleanLiteral[]{
+                        new BooleanLiteral(1),
+                        new BooleanLiteral(-2),
+                },
+                new BooleanLiteral[]{
+                        new BooleanLiteral(3),
+                        new BooleanLiteral(4),
+                });
 
         System.out.println(env);
         implication1.execute(env);

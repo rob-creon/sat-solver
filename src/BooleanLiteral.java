@@ -18,10 +18,17 @@ public class BooleanLiteral implements BooleanExpression {
      *
      * @param literal
      */
-    public BooleanLiteral(String literal) {
-        int value = Integer.parseInt(literal);
-        truth = value > 0;
-        x = Math.abs(value);
+    public BooleanLiteral(int literal) {
+        this(Math.abs(literal), literal > 0);
+    }
+
+    private BooleanLiteral(int x, boolean truth) {
+        this.x = x;
+        this.truth = truth;
+    }
+
+    public BooleanLiteral getOpposite() {
+        return new BooleanLiteral(x, !truth);
     }
 
     public int getX() {
@@ -33,13 +40,20 @@ public class BooleanLiteral implements BooleanExpression {
     }
 
     @Override
-    public boolean eval(BooleanFormulaEnvironment instance) {
+    public boolean eval(BooleanEnvironment instance) {
         return (instance.getVariables()[x - 1].bool && truth) || (!instance.getVariables()[x - 1].bool && !truth);
     }
 
     @Override
-    public boolean canEval(BooleanFormulaEnvironment instance) {
+    public boolean canEval(BooleanEnvironment instance) {
         return instance.getVariables()[x - 1] != BooleanValue.UNASSIGNED;
+    }
+
+    @Override
+    public BooleanImplication[] getImplications() {
+        return new BooleanImplication[]{
+                new BooleanImplication(new BooleanExpression[]{}, new BooleanExpression[]{})
+        };
     }
 
     @Override
