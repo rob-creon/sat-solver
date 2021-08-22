@@ -38,9 +38,9 @@ public class BooleanClause implements BooleanExpression {
     @Override
     public boolean canEval(BooleanEnvironment instance) {
         for (BooleanLiteral literal : literals)
-            if (literal.canEval(instance))
-                return true;
-        return false;
+            if (!literal.canEval(instance))
+                return false;
+        return true;
     }
 
     @Override
@@ -68,8 +68,45 @@ public class BooleanClause implements BooleanExpression {
         return max;
     }
 
+
+    public void unitPropagate(BooleanEnvironment env) {
+        BooleanLiteral unassignedLit = null;
+        for (BooleanLiteral literal : literals) {
+            if (env.getVariables()[literal.getX() - 1] == BooleanValue.UNASSIGNED) {
+                if (unassignedLit == null) {
+                    unassignedLit = literal;
+                } else {
+                    return; //this is not a unit clause
+                }
+            } else {
+                if (literal.eval(env)) {
+                    return; //this is not a unit clause
+                }
+            }
+        }
+        if (unassignedLit == null) return; //this is not a unit clause
+
+        env.getVariables()[unassignedLit.getX() - 1] = BooleanValue.FALSE;
+        if (this.eval(env)) {
+            return;
+        }
+
+        env.getVariables()[unassignedLit.getX() - 1] = BooleanValue.TRUE;
+        if (this.eval(env)) {
+            return;
+        }
+
+        throw new IllegalStateException("I don't think this should happen");
+    }
+
+    public boolean isEmpty() {
+        return literals.isEmpty();
+    }
+
     @Override
     public String toString() {
         return "(" + literals.stream().map(Objects::toString).collect(Collectors.joining(" ∨ ")) + ")";
     }
+
+
 }

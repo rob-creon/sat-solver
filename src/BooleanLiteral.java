@@ -40,13 +40,13 @@ public class BooleanLiteral implements BooleanExpression {
     }
 
     @Override
-    public boolean eval(BooleanEnvironment instance) {
-        return (instance.getVariables()[x - 1].bool && truth) || (!instance.getVariables()[x - 1].bool && !truth);
+    public boolean eval(BooleanEnvironment env) {
+        return (env.getVariables()[x - 1].bool && truth) || (!env.getVariables()[x - 1].bool && !truth);
     }
 
     @Override
-    public boolean canEval(BooleanEnvironment instance) {
-        return instance.getVariables()[x - 1] != BooleanValue.UNASSIGNED;
+    public boolean canEval(BooleanEnvironment env) {
+        return env.getVariables()[x - 1] != BooleanValue.UNASSIGNED;
     }
 
     @Override

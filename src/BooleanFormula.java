@@ -75,4 +75,8 @@ public class BooleanFormula implements BooleanExpression {
     public String toString() {
         return clauses.stream().map(Objects::toString).collect(Collectors.joining(" ∧ "));
     }
+
+    public List<BooleanClause> getClauses() {
+        return clauses;
+    }
 }

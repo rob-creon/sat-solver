@@ -52,18 +52,32 @@ public class Test {
 
         BooleanEnvironment env = new BooleanEnvironment("TF--");
 
-        BooleanImplication implication1 = new BooleanImplication(
-                new BooleanLiteral[]{
-                        new BooleanLiteral(1),
-                        new BooleanLiteral(-2),
-                },
-                new BooleanLiteral[]{
-                        new BooleanLiteral(3),
-                        new BooleanLiteral(4),
-                });
+//        BooleanImplication implication1 = new BooleanImplication(
+//                new BooleanLiteral[]{
+//                        new BooleanLiteral(1),
+//                        new BooleanLiteral(-2),
+//                },
+//                new BooleanLiteral[]{
+//                        new BooleanLiteral(3),
+//                        new BooleanLiteral(4),
+//                });
+//
+//        System.out.println(env);
+//        implication1.execute(env);
+//        System.out.println(env);
+        BooleanFormula formula4 = new BooleanFormula("1 2\n-1\n-2");
+        assert (!new BruteForceSolution(formula4).solve().answer());
 
-        System.out.println(env);
-        implication1.execute(env);
-        System.out.println(env);
+        BooleanEnvironment env2 = new BooleanEnvironment("FF-");
+        BooleanClause clause = new BooleanClause("1 2 3");
+
+        System.out.println(env2);
+        clause.unitPropagate(env2);
+        System.out.println(env2);
+
+        BooleanEnvironment env3 = new BooleanEnvironment("TF-");
+        System.out.println(env3);
+        clause.unitPropagate(env3);
+        System.out.println(env3);
     }
 }
